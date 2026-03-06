@@ -20,7 +20,7 @@ if not COURSE_ID:
 
 query_template = """
 {
-  course(id: {course_id}) {
+  course(id: COURSE_ID_PLACEHOLDER) {
     id
     name
     assignmentsConnection {
@@ -55,7 +55,7 @@ query_template = """
 }
 """
 
-query = query_template.format(course_id=COURSE_ID)
+query = query_template.replace("COURSE_ID_PLACEHOLDER", COURSE_ID)
 
 headers = {
     "Authorization": f"Bearer {ACCESS_TOKEN}",
