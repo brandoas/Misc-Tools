@@ -1,0 +1,86 @@
+{
+  "title": "Deliverable 2 - Advanced Routing (OSPF)",
+  "free_form_criterion_comments": false,
+  "criteria": [
+    {
+      "description": "IP design and documentation",
+      "long_description": "IP Address Grid complete for all nets, loopbacks, and WAN; dual-stack; /30 IPv4 and /64 IPv6 on point-to-point links; router IDs follow the convention; addressing follows course IP conventions.",
+      "points": 15,
+      "ratings": [
+        {"description": "Meets", "points": 15, "long_description": "Grid complete and correct, dual-stack, conventions followed."},
+        {"description": "Partial", "points": 8, "long_description": "Incomplete grid, one family missing, or conventions not followed."},
+        {"description": "Missing", "points": 0, "long_description": "Not provided."}
+      ]
+    },
+    {
+      "description": "Logical network diagram",
+      "long_description": "Drawn (not a screenshot), matches the built topology, network numbers and interface addresses labeled, readable orientation, sources cited if reused.",
+      "points": 10,
+      "ratings": [
+        {"description": "Meets", "points": 10, "long_description": "Drawn, complete, labeled, cited."},
+        {"description": "Partial", "points": 5, "long_description": "Screenshot, or missing labels/network numbers, or sideways text."},
+        {"description": "Missing", "points": 0, "long_description": "Not provided."}
+      ]
+    },
+    {
+      "description": "Configuration recipes",
+      "long_description": "Static and OSPF recipes present and correct; loopbacks on every router; DHCP/SLAAC/DNS/NAT consistent with prior labs; default-information originate on the edge router only.",
+      "points": 15,
+      "ratings": [
+        {"description": "Meets", "points": 15, "long_description": "Both recipes complete and correct."},
+        {"description": "Partial", "points": 8, "long_description": "Missing elements or errors in one recipe."},
+        {"description": "Missing", "points": 0, "long_description": "Not provided."}
+      ]
+    },
+    {
+      "description": "Static-routing proof (Task 2)",
+      "long_description": "Loopback-to-loopback reachability shown from each router for IPv4 and IPv6; full route tables included; output in fixed-width font.",
+      "points": 10,
+      "ratings": [
+        {"description": "Meets", "points": 10, "long_description": "All pings and route tables shown, both families."},
+        {"description": "Partial", "points": 5, "long_description": "Partial coverage or one family missing."},
+        {"description": "Missing", "points": 0, "long_description": "Not provided."}
+      ]
+    },
+    {
+      "description": "OSPF deployment and verification (Task 4)",
+      "long_description": "Adjacencies Full on every transit link and matching the diagram; client nets passive with no neighbors; every loopback present as an intra-area route in every table; transit links point-to-point with no DR/BDR; IPv4 and IPv6 neighbor counts match; client-to-client traceroutes included; both families throughout.",
+      "points": 25,
+      "ratings": [
+        {"description": "Meets", "points": 25, "long_description": "Full verification, both families, correctly read."},
+        {"description": "Partial", "points": 13, "long_description": "Gaps in verification, one family, or misread output."},
+        {"description": "Missing", "points": 0, "long_description": "Not provided."}
+      ]
+    },
+    {
+      "description": "Link-failure analysis (Task 5)",
+      "long_description": "Before and after traceroutes captured; the path change correctly identified; a correct explanation of how OSPF detected the failure and reconverged.",
+      "points": 10,
+      "ratings": [
+        {"description": "Meets", "points": 10, "long_description": "Both traceroutes, path change identified and explained."},
+        {"description": "Partial", "points": 5, "long_description": "Missing a capture or a weak explanation."},
+        {"description": "Missing", "points": 0, "long_description": "Not provided."}
+      ]
+    },
+    {
+      "description": "Thought questions (Task 6)",
+      "long_description": "OSPF failure-and-recovery process explained accurately; three eligible VyOS routing protocols compared and contrasted with when and why each is used.",
+      "points": 10,
+      "ratings": [
+        {"description": "Meets", "points": 10, "long_description": "Both questions answered accurately and completely."},
+        {"description": "Partial", "points": 5, "long_description": "One question weak or incomplete."},
+        {"description": "Missing", "points": 0, "long_description": "Not provided."}
+      ]
+    },
+    {
+      "description": "Report quality and conventions",
+      "long_description": "Submitted as .docx; professional and consistent formatting; fixed-width technical output; only requested data included; citations present.",
+      "points": 5,
+      "ratings": [
+        {"description": "Meets", "points": 5, "long_description": ".docx, clean formatting, conventions followed."},
+        {"description": "Partial", "points": 3, "long_description": "Convention violations (wrong format, proportional font, padding)."},
+        {"description": "Missing", "points": 0, "long_description": "Not provided or major violations."}
+      ]
+    }
+  ]
+}

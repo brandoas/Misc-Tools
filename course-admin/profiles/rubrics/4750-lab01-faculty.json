@@ -1,0 +1,29 @@
+{
+  "title": "Deliverable 01 - Faculty",
+  "points_possible": 15,
+  "free_form_criterion_comments": false,
+  "criteria": [
+    {
+      "description": "Faculty Review",
+      "long_description": "Overall organization and design quality.",
+      "points": 15,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "Meets the objective with clear, well formatted evidence.",
+          "points": 15
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 14
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    }
+  ]
+}

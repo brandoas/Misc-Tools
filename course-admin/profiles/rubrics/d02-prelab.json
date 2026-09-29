@@ -1,0 +1,16 @@
+{
+  "title": "Deliverable 02 - PreLab",
+  "free_form_criterion_comments": false,
+  "criteria": [
+    {
+      "description": "Art of IP Space Assignment",
+      "long_description": "IP grid, drawn network diagram, and starting recipe.",
+      "points": 10,
+      "ratings": [
+        {"description": "Complete", "points": 10, "long_description": "A viable design."},
+        {"description": "Incomplete", "points": 5, "long_description": "Substantial issues - see comments."},
+        {"description": "Missing", "points": 0, "long_description": "No submission, or not viable without significant work."}
+      ]
+    }
+  ]
+}

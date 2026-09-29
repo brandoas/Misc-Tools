@@ -1,0 +1,56 @@
+{
+  "title": "Deliverable 03 - Grader",
+  "free_form_criterion_comments": false,
+  "criteria": [
+    {
+      "description": "Deployment Evidence",
+      "long_description": "Dual-stack network deployed with the VyOS caching/forwarding DNS service, DHCP/SLAAC handing out that resolver, and the destination NAT for public DNS access, IPv4 and IPv6.",
+      "points": 15,
+      "ratings": [
+        {"description": "Complete", "points": 15, "long_description": "Meets the objective with clear, well formatted evidence."},
+        {"description": "Acceptable", "points": 14, "long_description": "Partial - see comments."},
+        {"description": "Missing", "points": 0, "long_description": "Absent or not data backed."}
+      ]
+    },
+    {
+      "description": "Debugging Process",
+      "long_description": "dig diagnostics (TTL change, NS, reverse lookup, +trace, the record query table) and resolving Bind service errors from the system log.",
+      "points": 15,
+      "ratings": [
+        {"description": "Complete", "points": 15, "long_description": "Meets the objective with clear, well formatted evidence."},
+        {"description": "Acceptable", "points": 14, "long_description": "Partial - see comments."},
+        {"description": "Missing", "points": 0, "long_description": "Absent or not data backed."}
+      ]
+    },
+    {
+      "description": "Protocol Nuances, Data Backed",
+      "long_description": "DNS record types (SOA, NS, MX, CNAME, A/AAAA, PTR), TTL and caching behavior, authoritative vs forwarding resolution, and response codes, explained from your own dig and packet-capture output.",
+      "points": 15,
+      "ratings": [
+        {"description": "Complete", "points": 15, "long_description": "Meets the objective with clear, well formatted evidence."},
+        {"description": "Acceptable", "points": 14, "long_description": "Partial - see comments."},
+        {"description": "Missing", "points": 0, "long_description": "Absent or not data backed."}
+      ]
+    },
+    {
+      "description": "Additional Design",
+      "long_description": "Authoritative zone with custom records and correct SOA serial discipline, plus the DNSSEC configuration proposal with a credible reference.",
+      "points": 15,
+      "ratings": [
+        {"description": "Complete", "points": 15, "long_description": "Meets the objective with clear, well formatted evidence."},
+        {"description": "Acceptable", "points": 14, "long_description": "Partial - see comments."},
+        {"description": "Missing", "points": 0, "long_description": "Absent or not data backed."}
+      ]
+    },
+    {
+      "description": "Report Standards",
+      "long_description": "Per the Lab Report Guidelines.",
+      "points": 15,
+      "ratings": [
+        {"description": "Complete", "points": 15, "long_description": "Meets the objective with clear, well formatted evidence."},
+        {"description": "Acceptable", "points": 14, "long_description": "Partial - see comments."},
+        {"description": "Missing", "points": 0, "long_description": "Absent or not data backed."}
+      ]
+    }
+  ]
+}

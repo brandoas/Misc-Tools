@@ -1,0 +1,16 @@
+{
+  "title": "Deliverable 04 - PreLab",
+  "free_form_criterion_comments": false,
+  "criteria": [
+    {
+      "description": "Task 1 - IP Address Design",
+      "long_description": "IPv4 IP grid for the WAN, DMZ, and LAN networks, per the class addressing conventions.",
+      "points": 10,
+      "ratings": [
+        {"description": "Complete", "points": 10, "long_description": "A complete, viable IPv4 IP grid filled in for the WAN, DMZ, and every LAN, following the class addressing conventions."},
+        {"description": "Incomplete", "points": 5, "long_description": "Substantial issues - see comments."},
+        {"description": "Missing", "points": 0, "long_description": "No submission, or not viable without significant work."}
+      ]
+    }
+  ]
+}

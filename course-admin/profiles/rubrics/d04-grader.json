@@ -1,0 +1,75 @@
+{
+  "title": "Deliverable 04 - Grader",
+  "free_form_criterion_comments": false,
+  "criteria": [
+    {
+      "description": "Automation foundations",
+      "long_description": "Tasks 2-4: GNS3 API by curl, Python/gns3fy project build, and Ansible verbosity/debugging.",
+      "points": 10,
+      "ratings": [
+        {"description": "Complete", "points": 10, "long_description": "Drives the GNS3 API directly with curl, builds and modifies a project with the Python/gns3fy scripts, and runs playbooks read at increasing verbosity."},
+        {"description": "Acceptable", "points": 9, "long_description": "Partial - see comments."},
+        {"description": "Missing", "points": 0, "long_description": "Absent or not data backed."}
+      ]
+    },
+    {
+      "description": "Build, configure, and fix the network",
+      "long_description": "Tasks 5-7: construct and start the topology, configure all devices, repair the DHCP Jinja template.",
+      "points": 20,
+      "ratings": [
+        {"description": "Complete", "points": 20, "long_description": "Builds and starts the topology with the make/start playbooks, configures every device, repairs the vyos-dhcp Jinja template, and proves the IPv4 lab path exits through VyOS-1 rather than the management NAT."},
+        {"description": "Acceptable", "points": 19, "long_description": "Partial - see comments."},
+        {"description": "Missing", "points": 0, "long_description": "Absent or not data backed."}
+      ]
+    },
+    {
+      "description": "IPv6 addressing",
+      "long_description": "Task 8: extend the automation to dual-stack the routers.",
+      "points": 15,
+      "ratings": [
+        {"description": "Complete", "points": 15, "long_description": "Extends the Ansible variables and templates to dual-stack the routers and proves IPv6 connectivity from VyOS-1."},
+        {"description": "Acceptable", "points": 14, "long_description": "Partial - see comments."},
+        {"description": "Missing", "points": 0, "long_description": "Absent or not data backed."}
+      ]
+    },
+    {
+      "description": "IPv6 routing",
+      "long_description": "Task 9: complete IPv6 reachability across the network.",
+      "points": 13,
+      "ratings": [
+        {"description": "Complete", "points": 13, "long_description": "Completes IPv6 reachability across the whole network by static routes, applied through Ansible and proven end to end."},
+        {"description": "Acceptable", "points": 12, "long_description": "Partial - see comments."},
+        {"description": "Missing", "points": 0, "long_description": "Absent or not data backed."}
+      ]
+    },
+    {
+      "description": "IPv6 SLAAC",
+      "long_description": "Task 10: automate SLAAC on the client-facing interfaces.",
+      "points": 12,
+      "ratings": [
+        {"description": "Complete", "points": 12, "long_description": "Automates SLAAC on the two client interfaces and shows a client autoconfiguring an IPv6 address."},
+        {"description": "Acceptable", "points": 11, "long_description": "Partial - see comments."},
+        {"description": "Missing", "points": 0, "long_description": "Absent or not data backed."}
+      ]
+    },
+    {
+      "description": "Report Standards",
+      "long_description": "Per the Lab Report Guidelines.",
+      "points": 5,
+      "ratings": [
+        {"description": "Complete", "points": 5, "long_description": "Meets the Lab Report Guidelines: fixed-width command output, only the requested evidence, and proper citations."},
+        {"description": "Acceptable", "points": 4, "long_description": "Partial - see comments."},
+        {"description": "Missing", "points": 0, "long_description": "Absent or not data backed."}
+      ]
+    },
+    {
+      "description": "IPv6 routing via OSPFv3 (bonus)",
+      "long_description": "Task 9 Option B: OSPFv3 configured with Ansible. Bonus, above the 75-point base.",
+      "points": 5,
+      "ratings": [
+        {"description": "Complete", "points": 5, "long_description": "Bonus: OSPFv3 configured with Ansible and IPv6 reachability proven through it."},
+        {"description": "Missing", "points": 0, "long_description": "Not attempted."}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "title": "Deliverable 02 - Report",
+  "free_form_criterion_comments": false,
+  "criteria": [
+    {
+      "description": "Server Build and Connectivity",
+      "long_description": "Ubuntu-CLI deployed, nmcli static IPv4 and IPv6, connectivity proof.",
+      "points": 15,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "Server deployed on BR-PublicNet with your assigned static IPv4 and IPv6 addresses, and connectivity proven in both families.",
+          "points": 15
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 14
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "SSH Trust Model",
+      "long_description": "Host key fingerprints captured and verified; dig and ssh -v address family analysis.",
+      "points": 15,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "Fingerprints captured on the console, matched at first connect, and the dig plus ssh -v address family result explained.",
+          "points": 15
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 14
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Jump Host and Secure Copy",
+      "long_description": "ssh -J and scp -J from your own computer; scp push and pull; GUI scp findings.",
+      "points": 15,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "Jump host and secure copy run from your own computer with fingerprints verified, plus scp push, pull, and the GUI findings.",
+          "points": 15
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 14
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Remote IDE and Echo Server",
+      "long_description": "VSCode Remote-SSH workspace, hello.py, echo test with ps and ss evidence.",
+      "points": 15,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "Remote workspace on the server, hello.py output recorded, and the echo server tested and observed with ps and ss.",
+          "points": 15
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 14
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Report Standards",
+      "long_description": "Per the Lab Report Guidelines.",
+      "points": 15,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "One Word document per the Lab Report Guidelines: labeled figures, terminal text as text, narrative connecting the evidence.",
+          "points": 15
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 14
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Faculty Review",
+      "long_description": "Overall organization and design quality.",
+      "points": 15,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "The design holds together and the report shows your own understanding end to end.",
+          "points": 15
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 14
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    }
+  ]
+}

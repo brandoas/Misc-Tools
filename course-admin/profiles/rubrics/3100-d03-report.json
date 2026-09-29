@@ -1,0 +1,160 @@
+{
+  "title": "Deliverable 03 - Report v2",
+  "free_form_criterion_comments": false,
+  "criteria": [
+    {
+      "description": "Task 1 - URL Basics",
+      "long_description": "",
+      "points": 5,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "URL structure demonstrated: the working DNS URL shown bare in the browser and the port 80 listener identified with ss.",
+          "points": 5
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 4
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 2 - Web Server Basics",
+      "long_description": "",
+      "points": 10,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "Web root manipulated and HTTP content accessed from the command line.",
+          "points": 10
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 9
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 3 - A Basic HTML Page",
+      "long_description": "",
+      "points": 10,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "HTML page built and served from your web server.",
+          "points": 10
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 9
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 4 - Web Based Debugging",
+      "long_description": "",
+      "points": 15,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "The browser's interaction with the server and the underlying network traffic both observed and explained.",
+          "points": 15
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 14
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 5 - A Publicly Trusted Certificate",
+      "long_description": "",
+      "points": 20,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "Let's Encrypt certificate acquired with Certbot and shown serving your site.",
+          "points": 20
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 19
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 6 - Layer 7 Routing",
+      "long_description": "",
+      "points": 20,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "Requests routed by URL through nginx, with proof of what the proxied application can and cannot know about the client.",
+          "points": 20
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 19
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Report Standards",
+      "long_description": "",
+      "points": 10,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "One Word document per the Lab Report Guidelines: labeled figures, terminal text as text, narrative connecting the evidence.",
+          "points": 10
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 9
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    }
+  ]
+}

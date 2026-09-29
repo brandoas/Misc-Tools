@@ -1,0 +1,40 @@
+{
+  "name": "ITS 6440 Strategic Issues in ITS Technology and Policy",
+  "_notes": "Default due 8:00 PM (carried from Fall 25). Nav dumped from Fall 25 (48211) on 2026-08-22, rubrics added. No GitHub labs, so no starter items. smart_search (IgniteAI Smart Search) OFF, which also removes the Search tab.",
+  "navigation": {
+    "visible": [
+      "syllabus",
+      "announcements",
+      "pages",
+      "files",
+      "grades",
+      "people",
+      "rubrics",
+      "assignments",
+      "quizzes",
+      "modules",
+      "LTI: Library Resources",
+      "LTI: Microsoft Education",
+      "LTI: Course Syllabus",
+      "LTI: Secure Exam Proctor"
+    ]
+  },
+  "settings": {
+    "default_due_time": "20:00:00",
+    "syllabus_course_summary": true,
+    "lock_all_announcements": true,
+    "show_announcements_on_home_page": false,
+    "allow_student_organized_groups": true
+  },
+  "course": {
+    "default_view": "modules",
+    "apply_assignment_group_weights": false,
+    "time_zone": "America/New_York"
+  },
+  "features": {
+    "quizzes_next": "on",
+    "new_quizzes_by_default": "on",
+    "smart_search": "off"
+  },
+  "starter_items": []
+}

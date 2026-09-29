@@ -1,0 +1,28 @@
+{
+  "title": "Deliverable 02 - PreLab",
+  "free_form_criterion_comments": false,
+  "criteria": [
+    {
+      "description": "Toolkit and Server Naming",
+      "long_description": "LLM, language, and IDE selections with justification; hostname and DNS names determined.",
+      "points": 10,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "A viable set of selections, justified.",
+          "points": 10
+        },
+        {
+          "description": "Incomplete",
+          "long_description": "Substantial issues - see comments.",
+          "points": 5
+        },
+        {
+          "description": "Missing",
+          "long_description": "No submission, or not viable without significant work.",
+          "points": 0
+        }
+      ]
+    }
+  ]
+}

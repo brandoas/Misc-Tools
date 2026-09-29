@@ -1,0 +1,26 @@
+<p>Design, build, and verify a five-router, dual-stack network, first with static routing and then with OSPF as the interior gateway protocol. Document the design, prove it works on both IPv4 and IPv6, observe how OSPF reacts to a link failure, and answer the thought questions. Submit one lab report covering all six tasks of Lab 2 (Advanced Routing).</p>
+
+<p><strong>Every network in this lab is dual-stack</strong>, so every design element and every verification step must be shown for both IPv4 and IPv6.</p>
+
+<h3>What to submit</h3>
+<p>A single <strong>Word document (.docx)</strong> uploaded here, organized in task order and containing:</p>
+<ol>
+  <li><strong>IP design and documentation:</strong> a completed IP Address Grid for all nets, the loopbacks, and the WAN, following the course IP conventions. Point-to-point links use /30 (IPv4) and /64 (IPv6). Router IDs follow the stated convention. Client LANs use DHCP and SLAAC.</li>
+  <li><strong>A logical network diagram</strong>, drawn (Draw.io or Visio), customized to your IP design, with network numbers and interface addresses labeled. Not a GNS3 screenshot.</li>
+  <li><strong>Configuration recipes</strong> for the static build and the OSPF build, including loopback addressing on every router and default-route origination on the edge router only.</li>
+  <li><strong>Static-routing proof (Task 2):</strong> from each router, pings to every other router's IPv4 and IPv6 loopback, plus the full route tables.</li>
+  <li><strong>OSPF verification (Task 4):</strong> the neighbor, interface, database, and route outputs for both families, with your reading of them, and client-to-client traceroutes.</li>
+  <li><strong>Link-failure analysis (Task 5):</strong> the before and after traceroutes, with the path change identified and explained.</li>
+  <li><strong>Thought questions (Task 6):</strong> the OSPF failure-and-recovery explanation and the compare-and-contrast of three eligible VyOS routing protocols.</li>
+</ol>
+
+<h3>Format conventions (these are graded)</h3>
+<ul>
+  <li><strong>Word document (.docx) only.</strong> Canvas enforces the extension.</li>
+  <li><strong>Diagrams are drawn</strong>, not GNS3 screenshots, except where a result can only be shown in a GUI.</li>
+  <li><strong>CLI, route-table, and traceroute output uses a fixed-width font</strong>, or it is unreadable and will lose credit.</li>
+  <li><strong>Answer what is asked.</strong> Show the relevant lines only. Do not pad the report with output that was not requested.</li>
+  <li><strong>Follow the class IP allocation conventions</strong> and cite any diagram or material that is not your own.</li>
+</ul>
+
+<p>Grading uses the attached rubric. Review it before you start.</p>

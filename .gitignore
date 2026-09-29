@@ -1,1 +1,5 @@
 .env
+__pycache__/
+*.pyc
+syllabus-*.html
+/course-admin/_tmp_d01

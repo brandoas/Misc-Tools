@@ -1,0 +1,70 @@
+{
+  "name": "ITS 3100 Internet Applications and Network Systems",
+  "_notes": "Default due 11:59 PM. Nav profile dumped from Fall 25 (54643) on 2026-08-21.",
+  "navigation": {
+    "visible": [
+      "search",
+      "syllabus",
+      "announcements",
+      "pages",
+      "grades",
+      "people",
+      "rubrics",
+      "assignments",
+      "quizzes",
+      "modules",
+      "LTI: Library Resources",
+      "LTI: Microsoft Education",
+      "LTI: Course Syllabus",
+      "LTI: Secure Exam Proctor"
+    ]
+  },
+  "settings": {
+    "default_due_time": "23:59:59",
+    "lock_all_announcements": true,
+    "show_announcements_on_home_page": false,
+    "allow_final_grade_override": true
+  },
+  "course": {
+    "default_view": "modules",
+    "apply_assignment_group_weights": false
+  },
+  "features": {
+    "quizzes_next": "on",
+    "new_quizzes_by_default": "on"
+  },
+  "starter_items": [
+    {
+      "type": "new_quiz",
+      "title": "GitHub ID",
+      "instructions": "<p>Enter the GitHub username you will use for this course's labs.</p>",
+      "points_possible": 0,
+      "due": {
+        "offset_days": 0,
+        "time": "default"
+      },
+      "unlimited_attempts": true,
+      "published": true,
+      "questions": [
+        {
+          "type": "essay",
+          "title": "GitHub ID",
+          "body": "<p>What is your GitHub ID?</p>"
+        }
+      ]
+    }
+  ],
+  "gradebook": {
+    "late_policy": {
+      "missing_submission_deduction_enabled": true,
+      "missing_submission_deduction": 100.0,
+      "late_submission_deduction_enabled": true,
+      "late_submission_deduction": 100.0,
+      "late_submission_interval": "day",
+      "late_submission_minimum_percent_enabled": false
+    },
+    "show_unpublished_assignments": false,
+    "show_separate_first_last_names": true,
+    "hide_assignment_group_totals": true
+  }
+}

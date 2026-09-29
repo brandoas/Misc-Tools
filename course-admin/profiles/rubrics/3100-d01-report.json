@@ -1,0 +1,182 @@
+{
+  "title": "Deliverable 01 - Report",
+  "free_form_criterion_comments": false,
+  "criteria": [
+    {
+      "description": "Task 2 - IPv4 Deployment and Connectivity",
+      "long_description": "Task 2 - Deploy.",
+      "points": 10,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "Topology built per the physical diagram, Ubuntu-GUI configured for IPv4 without DNS, and ping evidence to the gateway and to 8.8.8.8 proves the IPv4 network is fully functional.",
+          "points": 10
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 9
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 3 - SLAAC and DHCPv6 on the WAN",
+      "long_description": "Task 3 - IPv6 router WAN configuration with SLAAC.",
+      "points": 10,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "VyOS-1 WAN carries both an autoconf and a DHCPv6 address, ping6 and show ipv6 route prove routing works, and the show interfaces output is broken down to explain how each address was acquired.",
+          "points": 10
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 9
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 4 - DHCP-PD on the LAN Interfaces",
+      "long_description": "Task 4 - IPv6 on the LAN interfaces with DHCP-PD.",
+      "points": 10,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "Prefix delegation configured on eth0 and applied to eth1 and eth2, with show interfaces output analyzed to explain where each delegated address came from.",
+          "points": 10
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 9
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 5 - IPv6 and DNS",
+      "long_description": "Task 5 - IPv6 and DNS.",
+      "points": 10,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "Name-server transport explained from the show configuration and ping evidence, then VyOS-1 moved to the ITS IPv6 resolvers.",
+          "points": 10
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 9
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 6 - Router Advertisements on LAN1",
+      "long_description": "Task 6 - IPv6 Router Advertisements to configure client machines.",
+      "points": 15,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "Router-advert serving LAN1 with DNS, the Ubuntu-GUI nmcli address tied to the captured RA packets, and dig shows an A record answered over IPv6 transport.",
+          "points": 15
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 14
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 7 - IPv6-Only Network and NAT64",
+      "long_description": "Task 7 - DNS64/NAT64 Transition technologies.",
+      "points": 20,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "LAN2 running IPv6-only with DNS64 and NAT64, a ping to www.ohio.edu captured pre and post translation on both VyOS interfaces, the ping 8.8.8.8 limitation observed, and 464XLAT with PREF64 explained from a credible reference.",
+          "points": 20
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 19
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Additional Question 1 - Source Address Selection",
+      "long_description": "Additional Questions, first question.",
+      "points": 5,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "Multiple IPv6 addresses on one interface analyzed and the source address selection process explained from the lab's own data.",
+          "points": 5
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 4
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Additional Question 2 - DHCP-PD Workflow",
+      "long_description": "Additional Questions, second question.",
+      "points": 10,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "The DHCP-PD workflow described end to end and its importance to IPv6 adoption in small business and residential networks argued.",
+          "points": 10
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 9
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    }
+  ]
+}

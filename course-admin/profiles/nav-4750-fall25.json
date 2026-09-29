@@ -1,0 +1,21 @@
+{
+  "visible": [
+    "search",
+    "syllabus",
+    "announcements",
+    "people",
+    "pages",
+    "rubrics",
+    "assignments",
+    "quizzes",
+    "grades",
+    "modules",
+    "LTI: Course Analytics",
+    "LTI: Library Resources",
+    "LTI: Microsoft Education",
+    "LTI: Panopto Video",
+    "LTI: LockDown Browser",
+    "LTI: Course Syllabus",
+    "LTI: Secure Exam Proctor"
+  ]
+}
