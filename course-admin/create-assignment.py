@@ -78,7 +78,7 @@ def main(argv):
     print(f"\nCreated assignment {out['id']} ('{out['name']}'), "
           f"published={out['published']}.")
     print(f"Attach the rubric with:\n"
-          f"  python put-rubric.py profiles/rubrics/deliverable-02.json "
+          f"  python put-rubric.py ../../ITS-4750-Infrastructure/Grading/Rubric/4750-deliverable-02.json "
           f"{course_id} {out['id']} --apply")
 
 

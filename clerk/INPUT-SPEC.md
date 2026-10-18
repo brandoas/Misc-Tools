@@ -212,7 +212,7 @@ worth showing a future class, and it feeds the cohort report.
 ## Lint
 
 ```
-clerk card lint cards/3100-d01.md
+clerk card lint <course repo>/Grading/Cards/3100-d01.md
 ```
 
 Checks that criteria points sum to `points`, that the front matter is complete,

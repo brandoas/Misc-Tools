@@ -23,8 +23,10 @@ from clerk import card as card_mod
 from clerk.card import Criterion
 from clerk.judge import Response, Finding, build_verdict, rate, verify_quote
 
-CARDS = Path(__file__).parent.parent / "cards"
-LABS = Path(__file__).parent.parent / "labs"
+# Course data lives in the course repos, checked out beside Misc-Tools.
+GRADING = Path(__file__).resolve().parents[3] / "ITS-3100-Devel" / "Grading"
+CARDS = GRADING / "Cards"
+LABS = GRADING / "Cards"
 
 
 # --- the rating rule ---------------------------------------------------------
@@ -189,7 +191,7 @@ def test_exemplary_requires_complete():
 
 def test_the_shipped_d01_card_is_well_formed():
     c = card_mod.load(CARDS / "3100-d01.md")
-    lab = __import__("clerk.lab", fromlist=["load"]).load(LABS / "3100-d01.md")
+    lab = __import__("clerk.lab", fromlist=["load"]).load(LABS / "3100-d01-lab.md")
     findings = card_mod.lint(c, lab)
     # Unsigned is expected and is the only finding allowed on the draft.
     assert all("unsigned" in f for f in findings), findings
@@ -285,7 +287,7 @@ def test_every_criterion_carries_the_handout_objective():
     student facing lab, because that is what students were told to achieve."""
     import clerk.lab as lab_mod
     c = card_mod.load(CARDS / "3100-d01.md")
-    lab = lab_mod.load(LABS / "3100-d01.md")
+    lab = lab_mod.load(LABS / "3100-d01-lab.md")
     for crit in c.criteria:
         assert crit.objective, f"{crit.name} has no objective"
         stated = [lab.task(n).objective for n in crit.tasks if lab.task(n)]
@@ -307,7 +309,7 @@ def test_a_criterion_grading_something_the_handout_never_asked_is_flagged(tmp_pa
         "objective: Configure BGP peering with the upstream provider.")
     path = tmp_path / "card.md"
     path.write_text(src, encoding="utf-8")
-    lab = lab_mod.load(LABS / "3100-d01.md")
+    lab = lab_mod.load(LABS / "3100-d01-lab.md")
     findings = card_mod.lint(card_mod.load(path), lab)
     assert any("does not match the Objective line" in f for f in findings), findings
 
@@ -319,8 +321,7 @@ def test_the_card_matches_the_live_canvas_rubric():
     guide describing two different instruments for the same deliverable.
     """
     import json
-    rubric = (Path(__file__).parent.parent.parent / "course-admin" / "profiles"
-              / "rubrics" / "3100-d01-report.json")
+    rubric = GRADING / "Rubric" / "3100-d01-report.json"
     live = json.loads(rubric.read_text(encoding="utf-8"))
     c = card_mod.load(CARDS / "3100-d01.md")
 
@@ -492,7 +493,7 @@ def test_checked_bullets_never_reach_the_model():
     import clerk.lab as lab_mod
     from clerk.judge import build_prompt
     c = card_mod.load(CARDS / "3100-d02.md")
-    lab = lab_mod.load(LABS / "3100-d02.md")
+    lab = lab_mod.load(LABS / "3100-d02-lab.md")
     crit = c.criterion("Report Standards")
     assert crit.checks, "the D02 card should declare machine checks"
     prompt = build_prompt(c, lab, crit, "some report text")

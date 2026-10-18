@@ -75,13 +75,19 @@ clerk doctor --host spark
 ```
 
 ```
-clerk card lint cards/3100-d01.md --lab labs/3100-d01.md
-clerk extract    runs/3100-d01
-clerk vision     runs/3100-d01
-clerk assemble   runs/3100-d01
-clerk judge      runs/3100-d01
-clerk report     runs/3100-d01
+clerk card lint ../../ITS-3100-Devel/Grading/Cards/3100-d01.md \
+    --lab ../../ITS-3100-Devel/Grading/Cards/3100-d01-lab.md
+clerk extract    $RUN
+clerk vision     $RUN
+clerk assemble   $RUN
+clerk judge      $RUN
+clerk report     $RUN
 ```
+
+`$RUN` is a run directory in OneDrive, never in this repo:
+`OneDrive - Ohio University/ITS 3100/<term>/Grading/3100-d01/`. Cards and
+lab.md files live in each course repo under `Grading/Cards/`. This repo holds
+code, spec and prompts only.
 
 Every command takes `--force` to redo work it has already done. `judge` takes
 `--student NAME` to redo one, and `--host spark` to use the bigger model.
@@ -89,7 +95,7 @@ Every command takes `--force` to redo work it has already done. `judge` takes
 A run directory:
 
 ```
-runs/3100-d01/
+$RUN/   (OneDrive: ITS 3100/<term>/Grading/3100-d01/)
   card.md                  reviewed grader card      you supply
   lab.md                   task context              you supply
   submissions/*.docx       student work, either format, one file per student
@@ -108,7 +114,7 @@ runs/3100-d01/
 
 `card.md` and `lab.md` are the only course specific things here.
 [INPUT-SPEC.md](INPUT-SPEC.md) is the normative format.
-[prompts/build-grader-inputs.md](prompts/build-grader-inputs.md) is the
+[prompts/chain/4-build-grader-inputs.md](prompts/chain/4-build-grader-inputs.md) is the
 instruction set for the rubric development context that produces them, and lives
 in each course repo.
 
@@ -139,11 +145,11 @@ There is no archive of graded reports to calibrate against, so ground truth is
 built:
 
 ```
-python fixtures/make_fixtures.py
-clerk extract  runs/3100-d01-fixtures
-clerk assemble runs/3100-d01-fixtures
-clerk judge    runs/3100-d01-fixtures --unsigned
-clerk calibrate runs/3100-d01-fixtures
+python ITS-3100-Devel/Grading/Cards/fixtures/make_3100_d01.py $RUN
+clerk extract  $RUN
+clerk assemble $RUN
+clerk judge    $RUN --unsigned
+clerk calibrate $RUN
 ```
 
 Five reports written to satisfy or fail specific Evidence bullets, with

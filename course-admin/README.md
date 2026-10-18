@@ -38,7 +38,7 @@ limits the pass.
 | `profiles/4750.json` | ITS 4750 | default due 5:00 PM; nav from Fall 25; GitHub ID starter quiz |
 | `profiles/3100.json` | ITS 3100 | default due 11:59 PM; nav dumped from Fall 25 (54643); GitHub ID starter quiz |
 | `profiles/nav-4750-fall25.json` | ITS 4750 | bare nav-only profile, original 2026-08-10 capture |
-| `profiles/rubrics/4750-lab01*.json` | ITS 4750 | Deliverable 01 rubrics: Grader (5 rows, 75 pts, rubric 61814), PreLab (10), Faculty (15); live on 82426 |
+| `ITS-4750-Infrastructure/Grading/Rubric/4750-d01-*.json` | ITS 4750 | Deliverable 01 rubrics: Grader (5 rows, 75 pts, rubric 61814), PreLab (10), Faculty (15); live on 82426 |
 
 Build a new profile from a course that went well:
 
