@@ -115,7 +115,7 @@ def cmd_pipeline(args) -> int:
 def _summarise(run: Path | object) -> None:
     """One line per student, so a morning read of the log tells you enough."""
     path = run.path if hasattr(run, "path") else Path(run)
-    roster_file = path / "roster.json"
+    roster_file = path / "etc" / "roster.json"
     roster = json.loads(roster_file.read_text(encoding="utf-8")) if roster_file.is_file() else {}
     rows = []
     for f in sorted((path / "verdicts").glob("*.json")):
@@ -132,7 +132,7 @@ def _summarise(run: Path | object) -> None:
     for score, flags, name in rows:
         note = f"  ({flags} flagged)" if flags else ""
         print(f"  {score:3} / {total}  {name}{note}")
-    q = path / "quarantine.json"
+    q = path / "etc" / "quarantine.json"
     if q.is_file():
         hits = json.loads(q.read_text(encoding="utf-8"))
         if hits:

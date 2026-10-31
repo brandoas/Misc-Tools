@@ -23,6 +23,19 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "course-admin"))
 READABLE = {".docx", ".docm", ".pdf"}
 
 
+
+def _etc(run_path):
+    """<run>/etc, created on demand.
+
+    The run root carries the review sheets a human grades from, so everything
+    the engine needs but nobody reads lives here: the card, the lab context, the
+    roster, the canary list and the stage timings.
+    """
+    from pathlib import Path as _P
+    d = _P(run_path) / "etc"
+    d.mkdir(parents=True, exist_ok=True)
+    return d
+
 def _api():
     """Import the shared Canvas helper lazily, so nothing else needs a token."""
     try:
@@ -133,7 +146,7 @@ def cmd_fetch(args) -> int:
             "similarity": _similarity(s),
         }
 
-    (run.path / "roster.json").write_text(
+    (_etc(run.path) / "roster.json").write_text(
         json.dumps(roster, indent=2, sort_keys=True), encoding="utf-8")
 
     print(f"\n{downloaded} downloaded, {skipped} already present, "

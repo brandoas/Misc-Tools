@@ -39,7 +39,7 @@ def _load(run_path: Path) -> tuple[list[dict], dict]:
     for f in sorted((run_path / "verdicts").glob("*.json")):
         verdicts.append({"student": f.stem,
                          "criteria": json.loads(f.read_text(encoding="utf-8"))})
-    roster_file = run_path / "roster.json"
+    roster_file = run_path / "etc" / "roster.json"
     roster = json.loads(roster_file.read_text(encoding="utf-8")) if roster_file.is_file() else {}
     return verdicts, roster
 

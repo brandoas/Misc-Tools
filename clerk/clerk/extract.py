@@ -158,19 +158,24 @@ STRICT_NS = {
 }
 
 
-def _transitional_copy(src: Path) -> Path:
-    """Rewrite a strict .docx into transitional form in the scratch directory.
+def _transitional_copy(src: Path, dest_dir: Path) -> Path:
+    """Rewrite a strict .docx into transitional form inside the run directory.
 
     The parts are identical apart from the namespace URIs, so a byte level
     substitution across the XML entries is enough. The original is never
     modified: a student submission is evidence and stays exactly as they sent
     it.
+
+    The copy goes in the run, not the system temp directory. It used to land in
+    a temporary directory nobody removed, which left a full copy of a student
+    report under the system temp folder after every strict submission, outside
+    the run and outside the per term OneDrive folder that holds everything
+    else. Writing it here means it lives and dies with the run it belongs to.
     """
-    import shutil
-    import tempfile
     import zipfile
 
-    out = Path(tempfile.mkdtemp(prefix="clerk-strict-")) / src.name
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    out = dest_dir / src.name
     with zipfile.ZipFile(src) as zin, zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as zout:
         for item in zin.infolist():
             data = zin.read(item.filename)
@@ -193,7 +198,7 @@ def extract_docx(docx_path: str | Path, image_dir: str | Path,
     except Exception as e:
         if "officeDocument" not in str(e):
             raise
-        repaired = _transitional_copy(docx_path)
+        repaired = _transitional_copy(docx_path, image_dir / "strict-copy")
         document = docx.Document(str(repaired))
         print(f"  note: {docx_path.name} was saved as Strict Open XML; "
               f"read from a transitional copy")

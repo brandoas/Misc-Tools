@@ -35,6 +35,19 @@ from .report import StudentResult, cohort_report, student_sheet
 
 
 
+
+def _etc(run_path):
+    """<run>/etc, created on demand.
+
+    The run root carries the review sheets a human grades from, so everything
+    the engine needs but nobody reads lives here: the card, the lab context, the
+    roster, the canary list and the stage timings.
+    """
+    from pathlib import Path as _P
+    d = _P(run_path) / "etc"
+    d.mkdir(parents=True, exist_ok=True)
+    return d
+
 class Run:
     """A run directory. Holds the inputs and every intermediate file."""
 
@@ -47,11 +60,11 @@ class Run:
 
     @property
     def card_path(self) -> Path:
-        return self.path / "card.md"
+        return _etc(self.path) / "card.md"
 
     @property
     def lab_path(self) -> Path:
-        return self.path / "lab.md"
+        return _etc(self.path) / "lab.md"
 
     def dir(self, name: str) -> Path:
         d = self.path / name
@@ -163,7 +176,7 @@ def cmd_extract(args) -> int:
         # 2026-10-23 already hold one, and renaming it would make their flags
         # invisible to a re-run. What changed is what it means: these
         # submissions are graded.
-        (run.path / "quarantine.json").write_text(
+        (_etc(run.path) / "quarantine.json").write_text(
             json.dumps([{"student": h.student, "reason": h.reason} for h in hits],
                        indent=2), encoding="utf-8")
         if hits:
@@ -339,13 +352,13 @@ def _facts_for(run: Run, student: str, report: str) -> checks_mod.Facts:
 def _load_results(run: Run, c) -> tuple[list[StudentResult], list]:
     results: list[StudentResult] = []
     canary_hits = []
-    qfile = run.path / "quarantine.json"
+    qfile = _etc(run.path) / "quarantine.json"
     if qfile.is_file():
         canary_hits = [canaries.CanaryHit(**q)
                        for q in json.loads(qfile.read_text(encoding="utf-8"))]
     qnames = {q.student for q in canary_hits}
 
-    rfile = run.path / "roster.json"
+    rfile = _etc(run.path) / "roster.json"
     roster = json.loads(rfile.read_text(encoding="utf-8")) if rfile.is_file() else {}
 
     for student in run.students():
@@ -379,11 +392,11 @@ def cmd_report(args) -> int:
     run = Run(args.run)
     c = run.load_card(require_signed=False)
     results, canary_hits = _load_results(run, c)
-    out_dir = run.dir("review")
+    out_dir = run.path
 
     for r in results:
         (out_dir / f"{r.student}.md").write_text(student_sheet(r, c), encoding="utf-8")
-    rfile = run.path / "roster.json"
+    rfile = _etc(run.path) / "roster.json"
     roster = json.loads(rfile.read_text(encoding="utf-8")) if rfile.is_file() else {}
     cohort = cohort_report(results, c, canary_hits=canary_hits, roster=roster)
     (out_dir / "_cohort.md").write_text(cohort, encoding="utf-8")
@@ -443,7 +456,7 @@ def _record_stage(run: "Run", stage: str, seconds: float, extra: dict | None = N
     commands, or several boxes, still adds up to one account of what it took.
     """
     from .engine import metrics_summary
-    path = run.path / "metrics.json"
+    path = _etc(run.path) / "metrics.json"
     data = json.loads(path.read_text(encoding="utf-8")) if path.is_file() else {"stages": []}
     entry = {"stage": stage, "seconds": round(seconds, 1),
              "finished": _dt.datetime.now().isoformat(timespec="seconds")}

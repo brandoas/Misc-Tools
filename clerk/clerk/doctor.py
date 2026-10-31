@@ -156,10 +156,13 @@ Pull it on the box:
 
     # 6. Concurrency, so a surprise here does not show up mid batch.
     # Report what the engine will actually do, not the box's capacity. Grading
-    # runs single slot for reproducibility regardless of OLLAMA_NUM_PARALLEL.
+    # runs single slot regardless of OLLAMA_NUM_PARALLEL, because one slot is
+    # the most stable setting available. It is not reproducible: measured
+    # 2026-10-25, five identical requests at temperature 0 with a fixed seed
+    # returned five different completions.
     engine_slots = Engine(args.host).slots
     if engine_slots == 1:
-        _say(OK, f"grading will use 1 slot for reproducibility "
+        _say(OK, f"grading will use 1 slot, the most stable setting "
                  f"({host.name} supports {host.slots})")
     else:
         _say(WARN, f"client set to {engine_slots} slots; scores will vary "

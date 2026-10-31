@@ -10,7 +10,7 @@ Lab NN Manager. Do not edit a handout, a rubric, or a lab note file yourself.
 clerk notes $RUN
 ```
 
-(`$RUN` is the OneDrive run directory) which writes `LAB-NOTES.md`, plus `review/_cohort.md`, plus Brandon's final
+(`$RUN` is the OneDrive run directory) which writes `LAB-NOTES.md`, plus `_cohort.md`, plus Brandon's final
 grades where they differ from the proposed ratings.
 
 ## Sort every finding to the earliest link that caused it

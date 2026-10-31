@@ -106,9 +106,9 @@ $RUN/   (OneDrive: ITS 3100/<term>/Grading/3100-d01/)
   vision/*.json            OCR and vision model transcriptions   editable
   dossier/*.md             extract plus vision, what the judge reads   editable
   verdicts/*.json          structured ratings
-  review/<student>.md      the sheet you grade from
-  review/_cohort.md        the class report
-  quarantine.json          canary hits, graded and flagged for you
+  <student>.md             the sheet you grade from
+  _cohort.md               the class report
+  etc/                     card, lab, roster, canary hits, stage timings
 ```
 
 ## The two inputs
@@ -127,7 +127,7 @@ errors, so the gate is the point rather than ceremony.
 
 ## The cohort report
 
-`review/_cohort.md` is the output worth reading first.
+`_cohort.md` at the run root is the output worth reading first.
 
 - **Where the class landed**: rating distribution per criterion. A criterion
   that came back Missing for 40 percent or more of the class is a lab or a
