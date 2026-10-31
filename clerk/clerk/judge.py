@@ -220,9 +220,9 @@ def check_quote(quote: str, report: str, *, threshold: float = 0.92) -> str:
     rejects it.
 
     So: try the whole string first, then fall back to verifying each fragment
-    independently. **Every** fragment above the length floor has to be found,
-    which is what keeps the anti fabrication property: a real sentence stitched
-    to an invented one still fails.
+    independently. **Every** fragment has to be found, which is what keeps the
+    anti fabrication property: a real sentence stitched to an invented one still
+    fails.
     """
     q = _normalise(_unwrap(quote))
     if len(q) < MIN_QUOTE_CHARS:
@@ -231,11 +231,10 @@ def check_quote(quote: str, report: str, *, threshold: float = 0.92) -> str:
     if _appears(q, hay, threshold):
         return FOUND
 
-    fragments = [f for f in _fragments(_unwrap(quote))
-                 if len(_normalise(f)) >= MIN_QUOTE_CHARS]
+    fragments = _fragments(_unwrap(quote))
     if len(fragments) < 2:
         return NOT_FOUND
-    if all(_appears(_normalise(f), hay, threshold) for f in fragments):
+    if all(_fragment_appears(f, hay, threshold) for f in fragments):
         return FOUND
     return NOT_FOUND
 
@@ -243,11 +242,46 @@ def check_quote(quote: str, report: str, *, threshold: float = 0.92) -> str:
 def _fragments(quote: str) -> list[str]:
     """Split a stitched quote into the pieces it was assembled from.
 
-    Sentence ends and explicit elisions, which is how a model joins passages it
-    took from different places.
+    Sentence ends, explicit elisions, and **every line break**, which is how a
+    model joins passages it took from different places.
+
+    Single newlines matter as much as the other two, because the commonest
+    stitch in these reports is a selection of lines out of one code block.
+    Asked whether every interface carries a description, the model answers
+
+        set interfaces ethernet eth0 description WAN
+        set interfaces ethernet eth1 description LAN1
+
+    where the report has `set interfaces ethernet eth1 address 172.24.0.254/24`
+    on the line between them. Both quoted lines are verbatim and the student did
+    nothing wrong; the concatenation is simply not contiguous, and folding it to
+    one string makes it read as invented. Measured on ITS 3100 D01: 33 of the 40
+    multi line quotes this check voided were this and nothing else, every one a
+    false fabrication flag against work that was on the page.
     """
-    parts = re.split(r"(?<=[.!?])\s+|\s*\.\.\.\s*|\s*…\s*|\n{2,}", quote)
+    parts = re.split(r"(?<=[.!?])\s+|\s*\.\.\.\s*|\s*…\s*|\n+", quote)
     return [p.strip() for p in parts if p.strip()]
+
+
+def _fragment_appears(fragment: str, hay: str, threshold: float) -> bool:
+    """One piece of a stitched quote, against the whole report.
+
+    A fragment under the length floor is held to exact containment rather than
+    discarded, which is the difference between crediting `sla-id 0 / sla-id 1`
+    and voiding it: both lines are eight characters, both are in the report, and
+    dropping them left fewer than two fragments to check and so no way to pass.
+    Same for `VyOS-1 eth1 ... 2610:a8:483f:c88::1/64`, where the elision splits
+    off an eleven character fragment.
+
+    Exact rather than fuzzy, because a short string fuzzy matches almost
+    anything and that is the whole reason for the floor. The floor still governs
+    the quote as a whole in check_quote, so a pile of tiny fragments cannot add
+    up to evidence here.
+    """
+    f = _normalise(fragment)
+    if len(f) < MIN_QUOTE_CHARS:
+        return f in hay
+    return _appears(f, hay, threshold)
 
 
 def verify_quote(quote: str, report: str, *, threshold: float = 0.92) -> bool:

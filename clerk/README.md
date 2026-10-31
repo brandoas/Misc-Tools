@@ -47,8 +47,9 @@ inherit the harder problem, and reflow the fixed width blocks that evidence
 quotes are checked against. Do not add a conversion step.
 
 **Canaries never reach a model.** A submission carrying the AI use marker is
-quarantined in code before a prompt exists, and the marker string never enters a
-prompt, a verdict or a comment.
+screened in code before a prompt exists, and the marker string never enters a
+prompt, a verdict or a comment. The submission is still graded: the flag
+notifies, it does not withhold a grade.
 
 ## Setup
 
@@ -101,7 +102,7 @@ runs/3100-d01/
   verdicts/*.json          structured ratings
   review/<student>.md      the sheet you grade from
   review/_cohort.md        the class report
-  quarantine.json          canary hits, not graded
+  quarantine.json          canary hits, graded and flagged for you
 ```
 
 ## The two inputs
@@ -131,7 +132,7 @@ errors, so the gate is the point rather than ceremony.
   usable, criteria that missed Complete by a single bullet (often a badly worded
   bullet rather than short work), and reports that submitted command output as
   screenshots.
-- **Quarantined**: names only.
+- **AI use marker**: names only. Those reports are graded like any other.
 
 ## Fixtures and calibration
 
@@ -169,6 +170,14 @@ on the DGX Spark. Wall clock for a class sized batch is close to the same on
 both: the 120b generates slower but the box gives it four parallel slots against
 ai-01's two, and grading is prefill heavy. So the choice is quality, not speed.
 Run `calibrate` against both and pick with a number.
+
+Doug reports 2026-10-13 that 64k contexts are available now, at least on spark.
+Untested. Both spark host entries still pin `context=32768`, and the comment in
+`engine.py` still says not to raise it, because `OLLAMA_CONTEXT_LENGTH` on the
+box capped it there after the 2026-09-19 out of memory incident. Try 64k on
+spark when there is time to sit and watch it. If it holds, raise the `Host`
+entry and fix that comment, which is the thing that will otherwise send the
+next person away.
 
 ## Tests
 

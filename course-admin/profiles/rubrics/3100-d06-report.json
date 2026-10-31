@@ -1,0 +1,182 @@
+{
+  "title": "Deliverable 06 - Report",
+  "free_form_criterion_comments": false,
+  "criteria": [
+    {
+      "description": "Task 1 - Documenting Your Residence Network",
+      "long_description": "",
+      "points": 10,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "The network the Pi will live on recorded, including how devices authenticate to it.",
+          "points": 10
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 9
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 2 - OS and Pre-configuration",
+      "long_description": "",
+      "points": 10,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "SD card imaged with Raspberry Pi OS and the serial console enabled before first boot.",
+          "points": 10
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 9
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 3 - Serial Console",
+      "long_description": "",
+      "points": 10,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "Logged in to the Pi over the serial console with no network address at all.",
+          "points": 10
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 9
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 4 - Network Configuration",
+      "long_description": "",
+      "points": 10,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "Pi joined to the OU guest network from the console and reached over SSH.",
+          "points": 10
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 9
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 5 - Leaving Breadcrumbs",
+      "long_description": "",
+      "points": 15,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "The Pi reporting its own address to your web server every five minutes, shown in the server's logs.",
+          "points": 15
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 14
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 6 - Care and Feeding",
+      "long_description": "",
+      "points": 20,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "The Pi found again from home, on a network the lab cannot see.",
+          "points": 20
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 19
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 7 - OS in a Virtual Machine",
+      "long_description": "",
+      "points": 15,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "Desktop operating system installed in a virtual machine on the gHost.",
+          "points": 15
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 14
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Report Standards",
+      "long_description": "",
+      "points": 10,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "One Word document per the Lab Report Guidelines: labeled figures, terminal text as text, narrative connecting the evidence.",
+          "points": 10
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 9
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    }
+  ]
+}

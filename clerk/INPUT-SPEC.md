@@ -55,6 +55,7 @@ reviewed: 2026-09-26
 | `points` | Total, must equal the sum of the criteria below |
 | `ratings` | How the three ratings score. `minus_one` means Acceptable is full minus one and requires a comment. |
 | `canary` | The AI use marker string for this lab, or `null`. See "Canaries" below. |
+| `max_images` | Optional. Images the vision pass transcribes per report, `0` for no limit. Omit it and the built in default applies. Set it to what this lab's evidence actually needs: images past the cap are recorded as unread and cannot support a bullet, so a cap set too low silently costs points. `--max-images` on the command line overrides it. |
 | `reviewed_by`, `reviewed` | The human gate |
 
 ### Criteria
@@ -148,10 +149,14 @@ pasted the lab into a chatbot. Put the exact string in the `canary` front matter
 field.
 
 **The grader handles canaries entirely in code, before any prompt is built.** A
-submission containing the marker is quarantined, is never sent to a model, gets
-no rating, and appears in the cohort report as a bare student name under
-"quarantined" with no quotation of the marker. The marker string never enters a
+submission containing the marker is graded like any other and appears in the
+cohort report as a bare student name under "AI use marker", with no quotation of
+the marker. The marker string is never sent to a model and never enters a
 prompt, a verdict, or a comment.
+
+The flag notifies, it does not withhold a grade. Brandon, 2026-10-23: a marker
+tells you how a report was written, which is not a finding about whether the
+work meets the criteria.
 
 Do not write canary handling into Evidence or Critique bullets. A model told not
 to mention a string will eventually mention it.

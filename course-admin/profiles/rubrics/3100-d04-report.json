@@ -1,0 +1,116 @@
+{
+  "title": "Deliverable 04 - Report",
+  "free_form_criterion_comments": false,
+  "criteria": [
+    {
+      "description": "Task 1 - Network Design and Deployment",
+      "long_description": "",
+      "points": 10,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "Addressing designed and the lab network built or restored on it.",
+          "points": 10
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 9
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 2 - HTTPS (SSL) Secure Channel",
+      "long_description": "",
+      "points": 30,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "Second name served with your self-signed certificate, and the trust difference between the two names established from the command line and the browser.",
+          "points": 30
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 29
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 3 - Testing the Server",
+      "long_description": "",
+      "points": 10,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "Public SSL test inventory of protocols, ciphers, and certificate chain, with identity and algorithm agreement distinguished.",
+          "points": 10
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 9
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 4 - VPN (WireGuard) Secure Channel",
+      "long_description": "",
+      "points": 30,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "WireGuard tunnel into the private LAN built and proven to carry traffic nothing else can.",
+          "points": 30
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 29
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Report Standards",
+      "long_description": "",
+      "points": 10,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "One Word document per the Lab Report Guidelines: labeled figures, terminal text as text, narrative connecting the evidence.",
+          "points": 10
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 9
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    }
+  ]
+}

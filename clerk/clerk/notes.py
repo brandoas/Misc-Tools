@@ -27,6 +27,8 @@ from __future__ import annotations
 import json
 from collections import Counter, defaultdict
 from datetime import date
+
+from .md import table
 from pathlib import Path
 
 HIGH, MEDIUM = 0.60, 0.40
@@ -83,10 +85,9 @@ def build(run_path: Path, card, lab) -> str:
         out.append(f"Missed by {int(HIGH * 100)} percent or more of the class. At "
                    f"this rate, look at the instruction before the students.")
         out.append("")
-        out.append("| Rate | Criterion | Evidence bullet |")
-        out.append("|---|---|---|")
-        for (crit, bullet), c in high:
-            out.append(f"| **{c}/{n}** ({c/n:.0%}) | {crit} | {bullet} |")
+        out.append(table(["Rate", "Share", "Criterion", "Evidence bullet"],
+                         [[f"{c}/{n}", f"{c/n:.0%}", crit, bullet]
+                          for (crit, bullet), c in high]))
         out.append("")
     else:
         out += ["Nothing was missed by most of the class.", ""]
@@ -95,10 +96,10 @@ def build(run_path: Path, card, lab) -> str:
         out += ["## Worth a look", "",
                 f"Missed by {int(MEDIUM * 100)} to {int(HIGH * 100)} percent. "
                 f"Usually an ambiguous instruction, or evidence that is easy to "
-                f"produce and easy to forget to write down.", "",
-                "| Rate | Criterion | Evidence bullet |", "|---|---|---|"]
-        for (crit, bullet), c in med:
-            out.append(f"| {c}/{n} ({c/n:.0%}) | {crit} | {bullet} |")
+                f"produce and easy to forget to write down.", ""]
+        out.append(table(["Rate", "Share", "Criterion", "Evidence bullet"],
+                         [[f"{c}/{n}", f"{c/n:.0%}", crit, bullet]
+                          for (crit, bullet), c in med]))
         out.append("")
 
     # Criteria nobody completed: usually the card, not the class.
@@ -163,11 +164,11 @@ def build(run_path: Path, card, lab) -> str:
             out.append(f"  {', '.join(sorted(screenshot_albums))}")
         out.append("")
 
-    out += ["## Where the class landed", "",
-            "| Criterion | Complete | Acceptable | Missing |", "|---|---|---|---|"]
-    for c in card.criteria:
-        k = per_criterion.get(c.name, Counter())
-        out.append(f"| {c.name} | {k['Complete']} | {k['Acceptable']} | {k['Missing']} |")
+    out += ["## Where the class landed", ""]
+    out.append(table(
+        ["Criterion", "Complete", "Acceptable", "Missing"],
+        [[c.name, (k := per_criterion.get(c.name, Counter()))["Complete"],
+          k["Acceptable"], k["Missing"]] for c in card.criteria]))
     out.append("")
 
     out += ["---", "",

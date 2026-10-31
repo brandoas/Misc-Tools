@@ -23,3 +23,18 @@ What to do:
 - Rewrite the Grading/ cards to match
 
 Do not retrofit Fall 2026. D01 was made to work by hand this term.
+
+# D06: Task 6 is over-weighted
+
+Brandon, 2026-10-23.
+
+Task 6, take the Pi home and find it again, carries 20 points, the most in the
+deliverable, and the handout asks only for the address. One sentence satisfies
+it. Task 5 at 15 has a real artifact in the web server log.
+
+Fix one of these for Spring:
+
+- the handout asks for more from home, and the Clerk card gains bullets for it
+- the weight moves from Task 6 onto Task 5
+
+Graded as posted for Fall 2026.

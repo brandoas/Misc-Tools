@@ -1,0 +1,28 @@
+{
+  "title": "Deliverable 04 - Faculty Feedback",
+  "free_form_criterion_comments": false,
+  "criteria": [
+    {
+      "description": "Faculty Feedback",
+      "long_description": "",
+      "points": 10,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "The design holds together and the report shows your own understanding end to end.",
+          "points": 10
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 9
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    }
+  ]
+}

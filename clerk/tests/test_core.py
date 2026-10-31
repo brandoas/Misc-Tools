@@ -191,19 +191,35 @@ def test_the_shipped_d01_card_is_well_formed():
     c = card_mod.load(CARDS / "3100-d01.md")
     lab = __import__("clerk.lab", fromlist=["load"]).load(LABS / "3100-d01.md")
     findings = card_mod.lint(c, lab)
-    # Unsigned is expected and is the only finding allowed on the draft.
-    assert all("unsigned" in f for f in findings), findings
+    assert findings == [], findings
     assert c.total_points == 90
     assert len(c.criteria) == 8
 
 
-def test_an_unsigned_card_is_refused():
-    c = card_mod.load(CARDS / "3100-d01.md")
+def _unsigned_copy(tmp_path) -> "Path":
+    """A copy of a real card with its signature stripped.
+
+    Built rather than borrowed: these tests originally string-replaced an empty
+    `reviewed_by:` in a shipped card, and broke the day that card was signed for
+    real. A test about the gate should not depend on the state of a card someone
+    is also using to grade with.
+    """
+    import re
+    src = (CARDS / "3100-d01.md").read_text(encoding="utf-8")
+    src = re.sub(r"^reviewed_by:.*$", "reviewed_by:", src, flags=re.M)
+    src = re.sub(r"^reviewed:.*$", "reviewed:", src, flags=re.M)
+    path = tmp_path / "card.md"
+    path.write_text(src, encoding="utf-8")
+    return path
+
+
+def test_an_unsigned_card_is_refused(tmp_path):
+    c = card_mod.load(_unsigned_copy(tmp_path))
     with pytest.raises(card_mod.CardError):
         card_mod.require_reviewed(c)
 
 
-def test_a_stale_signature_is_refused(tmp_path):
+def test_a_stale_signature_is_refused(tmp_path):  # noqa: D401
     """Editing a card has to invalidate the human review.
 
     This is the whole gate. If a signature survived an edit, a bullet could be
@@ -223,10 +239,10 @@ def test_a_stale_signature_is_refused(tmp_path):
 
 
 def test_a_current_signature_passes(tmp_path):
-    src = (CARDS / "3100-d01.md").read_text(encoding="utf-8")
-    src = src.replace("reviewed_by:", "reviewed_by: saundeb1")
-    src = src.replace("reviewed:\n", f"reviewed: {dt.date.today().isoformat()}\n")
-    path = tmp_path / "card.md"
+    path = _unsigned_copy(tmp_path)
+    src = path.read_text(encoding="utf-8")
+    src = src.replace("reviewed_by:", "reviewed_by: saundeb1", 1)
+    src = src.replace("reviewed:\n", f"reviewed: {dt.date.today().isoformat()}\n", 1)
     path.write_text(src, encoding="utf-8")
     card_mod.require_reviewed(card_mod.load(path))
 
@@ -248,6 +264,41 @@ def test_lint_catches_an_unobservable_bullet(tmp_path):
     path.write_text(src, encoding="utf-8")
     findings = card_mod.lint(card_mod.load(path))
     assert any("not observable" in f for f in findings)
+
+
+def test_a_card_without_max_images_falls_back_to_the_default(tmp_path):
+    from clerk.vision import DEFAULT_MAX_IMAGES
+    c = card_mod.load(CARDS / "3100-d01.md")
+    assert "max_images" not in c.meta
+    assert c.max_images == DEFAULT_MAX_IMAGES
+
+
+def test_a_card_can_raise_the_image_cap(tmp_path):
+    """The right cap is a property of the lab, not of the tool."""
+    src = (CARDS / "3100-d01.md").read_text(encoding="utf-8")
+    path = tmp_path / "card.md"
+    path.write_text(src.replace("canary: null", "canary: null\nmax_images: 9"),
+                    encoding="utf-8")
+    c = card_mod.load(path)
+    assert c.max_images == 9
+    assert not [f for f in card_mod.lint(c) if "max_images" in f]
+
+
+def test_zero_means_transcribe_every_image(tmp_path):
+    src = (CARDS / "3100-d01.md").read_text(encoding="utf-8")
+    path = tmp_path / "card.md"
+    path.write_text(src.replace("canary: null", "canary: null\nmax_images: 0"),
+                    encoding="utf-8")
+    assert card_mod.load(path).max_images == 0
+
+
+def test_lint_catches_a_nonsense_image_cap(tmp_path):
+    src = (CARDS / "3100-d01.md").read_text(encoding="utf-8")
+    path = tmp_path / "card.md"
+    path.write_text(src.replace("canary: null", "canary: null\nmax_images: -2"),
+                    encoding="utf-8")
+    findings = card_mod.lint(card_mod.load(path))
+    assert any("max_images" in f for f in findings)
 
 
 # --- canaries ----------------------------------------------------------------
@@ -422,6 +473,80 @@ def test_a_stitched_quote_with_one_invented_fragment_fails():
     poisoned = ("is the DHCPv6 address, assigned by a server rather than derived. "
                 "The student also configured OSPFv3 across the backbone.")
     assert not verify_quote(poisoned, REPORT)
+
+
+# --- line selection out of a code block, from ITS 3100 D01 -------------------
+
+CONFIG_REPORT = """\
+## Task 2
+
+```
+set system host-name vyos-1
+set interfaces ethernet eth0 address dhcp
+set interfaces ethernet eth0 description WAN
+set interfaces ethernet eth1 address 172.24.0.254/24
+set interfaces ethernet eth1 description LAN1
+commit
+```
+"""
+
+
+def test_a_quote_selecting_lines_out_of_a_code_block_verifies():
+    """The dominant verbatim failure on ITS 3100 D01: 33 of 40 multi line voids.
+
+    Asked whether every interface carries a description, the model quotes the two
+    description lines. Both are verbatim, and the address line sits between them
+    in the report, so the concatenation is not contiguous. Splitting only on
+    blank lines called that fabricated.
+    """
+    quote = ("set interfaces ethernet eth0 description WAN\n"
+             "set interfaces ethernet eth1 description LAN1")
+    assert verify_quote(quote, CONFIG_REPORT)
+
+
+def test_line_selection_does_not_rescue_an_invented_line():
+    """Splitting on newlines must not become a hole in the fabrication guard.
+
+    th933325 on D01 quoted two `set system name-server` lines carrying the
+    handout's IPv6 resolvers when the report had configured IPv4 ones. That has
+    to keep failing, and does: the invented line is not on the page.
+    """
+    quote = ("set interfaces ethernet eth0 description WAN\n"
+             "set interfaces ethernet eth2 description LAN2")
+    assert not verify_quote(quote, CONFIG_REPORT)
+
+
+def test_short_fragments_are_checked_rather_than_discarded():
+    """`sla-id 0 / sla-id 1` is two real lines of eight characters each.
+
+    Three lines apart in ce455922's report, as here, so the contiguous pass
+    cannot rescue the quote. Discarding every fragment under the length floor
+    then left fewer than two to check, which returned NOT_FOUND and voided the
+    criterion. Both lines are on the page, so the quote has to pass.
+    """
+    report = ("set interfaces ethernet eth0 dhcpv6-options pd 0 interface eth1\n"
+              "sla-id 0\n"
+              "set interfaces ethernet eth0 dhcpv6-options pd 0 interface eth2\n"
+              "address 1\n"
+              "set interfaces ethernet eth0 dhcpv6-options pd 0 interface eth2\n"
+              "sla-id 1")
+    assert verify_quote("sla-id 0\nsla-id 1", report)
+
+
+def test_an_elision_against_a_short_first_fragment_verifies():
+    """nb707821 on D01: `VyOS-1 eth1` is eleven characters, one short of the floor.
+
+    Both sides of the elision sit on the same table row of the report. Dropping
+    the short side left a single fragment, and the quote was called fabricated.
+    """
+    report = "| VyOS-1 eth1 | 192.168.71.254/21 2610:a8:483f:c88::1/64 |"
+    assert verify_quote("VyOS-1 eth1 ... 2610:a8:483f:c88::1/64", report)
+
+
+def test_a_short_fragment_that_is_not_in_the_report_still_fails():
+    """Checked exactly rather than fuzzily, so a short invented line cannot pass."""
+    report = "```\nset interfaces ethernet eth0 dhcpv6-options pd 0\nsla-id 0\n```"
+    assert not verify_quote("sla-id 0\nsla-id 7", report)
 
 
 # --- reproducibility ---------------------------------------------------------

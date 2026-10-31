@@ -234,7 +234,8 @@ def _data_url(path: Path, max_edge: int = MAX_IMAGE_EDGE) -> str:
     return f"data:{mime};base64,{base64.b64encode(path.read_bytes()).decode()}"
 
 
-#: Images transcribed per report. Beyond this they are recorded and skipped.
+#: Fallback cap on images transcribed per report, used only when the card does
+#: not set `max_images`. Beyond the cap they are recorded and skipped.
 #:
 #: Four is not an arbitrary budget, it is roughly what a correct report needs: a
 #: network diagram, and a small number of genuinely visual artifacts such as a
@@ -246,6 +247,12 @@ def _data_url(path: Path, max_edge: int = MAX_IMAGE_EDGE) -> str:
 #: unclassified and 1 Wireshark. Almost none of it was evidence the report was
 #: entitled to present that way, so the cap costs little and the overflow is
 #: itself a finding.
+#:
+#: That measurement is D02's, and D02 is a deliverable whose evidence is nearly
+#: all command output. It does not generalise. D03 asks for a browser window per
+#: task, a certificate panel and a devtools pane, and at four its best evidence
+#: landed past the cap unread. The number belongs on the card, which knows what
+#: the lab asked for; this is only the fallback.
 DEFAULT_MAX_IMAGES = 4
 
 
@@ -266,6 +273,17 @@ def cmd_vision(args) -> int:
           f"{engine.host.slots} slots"
           + ("" if args.no_ocr else ", plus tesseract"))
 
+    # The flag beats the card, the card beats the built in. Said out loud,
+    # because a cap that silently drops evidence is the one thing about this
+    # stage that has bitten a real grade.
+    if args.max_images is not None:
+        limit, source = args.max_images, "--max-images"
+    elif c.meta.get("max_images") is not None:
+        limit, source = c.max_images, f"{c.path.name}"
+    else:
+        limit, source = DEFAULT_MAX_IMAGES, "built in default"
+    print(f"image cap: {limit or 'none'} per report (from {source})")
+
     async def run_all() -> None:
         for student in run.students():
             meta_file = ext_dir / f"{student}.meta.json"
@@ -281,7 +299,6 @@ def cmd_vision(args) -> int:
                 dest.write_text("[]", encoding="utf-8")
                 continue
 
-            limit = args.max_images
             skipped = images[limit:] if limit else []
             images = images[:limit] if limit else images
             if skipped:

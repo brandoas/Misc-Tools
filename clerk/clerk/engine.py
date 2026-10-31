@@ -148,7 +148,8 @@ class Engine:
 
     def __init__(self, host: str | Host = "ai01", *, model: str | None = None,
                  temperature: float = 0.0, seed: int = 20260926,
-                 keep_alive: str | int = "30m", slots: int | None = None):
+                 keep_alive: str | int = "2m", slots: int | None = None,
+                 pause: float = 0.0):
         h = HOSTS[host] if isinstance(host, str) else host
         if host not in HOSTS and isinstance(host, str):
             raise EngineError(f"unknown host {host!r}, expected one of {list(HOSTS)}")
@@ -163,12 +164,38 @@ class Engine:
 
         self.host = h
         self.model = model or h.model
-        # Zero temperature and a fixed seed, so two runs over the same report
-        # produce the same rating. A grader that disagrees with itself between
-        # runs has no standing.
+        # Zero temperature and a fixed seed, which is the most we can ask for
+        # and is NOT enough to reproduce a rating. Measured on spark-01,
+        # 2026-10-25: five identical requests at temperature 0 with this seed
+        # returned five different completions.
+        #
+        # Across a full re-judge of ITS 4750 d03 to d08 on prompts that had not
+        # changed, 39 of 237 criterion ratings moved, and one student's total
+        # moved 24 points of 100. Mean absolute movement was 4.3 points.
+        #
+        # So a single run is one sample, not a measurement. The note below about
+        # batching explains the cause and why no client setting fixes it: at one
+        # slot we control our own concurrency but not the server's, and on a
+        # shared box our request is batched with other people's.
         self.temperature = temperature
         self.seed = seed
+        # How long Ollama holds the model resident after our last call.
+        #
+        # This was 30m, which is antisocial on spark-01: that box runs
+        # OLLAMA_MAX_LOADED_MODELS=1, so a resident gpt-oss:120b at 65 GB means
+        # nobody can use any other model there for half an hour after grading
+        # stops. The GPU time is not the disruption; the squatting is.
+        #
+        # 2m is long enough to bridge the gap between our own back to back
+        # calls, so we do not pay a reload per criterion, and short enough that
+        # the box frees itself shortly after a run ends or is killed.
         self.keep_alive = keep_alive
+        # Seconds to wait between calls. Deliberate idle, so another user's
+        # request can reach the runner and, on a one model box, evict ours.
+        # Cooperative only: a call already in flight cannot be interrupted, and
+        # at a median of 167 seconds that is the real floor on how quickly this
+        # can get out of someone's way.
+        self.pause = pause
         self._client = AsyncOpenAI(base_url=h.base_url, api_key=key, timeout=300.0)
         # Grading runs at one request in flight, not at the host's slot count.
         #
@@ -232,6 +259,8 @@ class Engine:
             {"role": "user", "content": content},
         ]
 
+        if self.pause:
+            await asyncio.sleep(self.pause)
         last_error: Exception | None = None
         started = time.monotonic()
         attempts = 0

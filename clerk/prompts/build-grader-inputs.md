@@ -112,7 +112,8 @@ the handout, because the card's `tasks:` lists join against these headings.
 If the lab README carries a hidden AI use marker, put the exact string in the
 card front matter `canary` field, and nowhere else. Do not mention it in any
 Evidence or Critique bullet, and do not describe it in prose anywhere in either
-file. The grader quarantines on it in code before a prompt exists.
+file. The grader screens for it in code before a prompt exists. The submission
+is still graded: the flag notifies, it does not withhold a grade.
 
 If the lab has no marker, set `canary: null`.
 

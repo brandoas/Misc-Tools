@@ -19,6 +19,7 @@ it was never shown.
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from typing import Callable
 
@@ -35,6 +36,7 @@ class Facts:
     terminal_images: int = 0
     wireshark_images: int = 0
     unformatted_terminal: int = 0
+    generic_hostnames: int = 0
 
 
 @dataclass
@@ -77,6 +79,91 @@ def single_pdf(f: Facts) -> CheckResult:
     if f.file_count > 1:
         return CheckResult(False, f"{f.file_count} files submitted, not one")
     return CheckResult(True, f"one PDF ({f.source})")
+
+
+@check("single_report_file")
+def single_report_file(f: Facts) -> CheckResult:
+    """One report, in either accepted format.
+
+    For deliverables that accept both. ITS 4750 Lab 1 was posted allowing pdf
+    and docx and every submission came in as PDF, so a docx only check would
+    have failed all ten. The format tightens to docx only later in the term,
+    and that is what single_docx is for.
+    """
+    ext = f.source.rsplit(".", 1)[-1].lower() if "." in f.source else ""
+    if ext not in ("docx", "docm", "pdf"):
+        return CheckResult(False, f"submitted as .{ext or 'unknown'}")
+    if f.file_count > 1:
+        return CheckResult(False, f"{f.file_count} files submitted, not one")
+    return CheckResult(True, f"one report file ({f.source})")
+
+
+#: Hostnames that are the image default or a handout placeholder, never a
+#: student's own. Observed in ITS 4750 Lab 1: `itsclass@its-vyos-x` appears 173
+#: times across 9 of 10 reports, because the stock VyOS image ships with that
+#: name and nobody changed it.
+#:
+#: This matters beyond tidiness. The prompt is the only thing tying a block of
+#: output to the machine that produced it, and with five near identical routers
+#: in the lab, output from `its-vyos-x` cannot be attributed to any of them. It
+#: is also the cheapest check on whether the work was done on the student's own
+#: assigned host, since every student's hostname is unique.
+#:
+#: Add new placeholders here rather than to a card; they are a property of the
+#: images and handouts, not of a deliverable.
+#: No Windows defaults here. Brandon, 2026-10-02: a Windows terminal prompt is
+#: `C:\Users\Student>` and carries no hostname at all, so DESKTOP-xxxxxxx and
+#: WIN-xxxxxxxxxxx can never appear in one. Nor are Ubuntu-GUI or Ubuntu-CLI-1
+#: listed: those are the topology object names, so a prompt showing one is
+#: probably correct.
+#:
+#: Matched only inside a SHELL PROMPT, never in prose. "Ubuntu-GUI" is the
+#: legitimate object name in these topologies and appears all over a correct
+#: report; "itsclass@ubuntu:~$" is the image default nobody renamed. A pattern
+#: that cannot tell those apart flags every student, which is the same as
+#: flagging none.
+#: Shape of a hostname sitting in a shell prompt. The NAMES come from the card.
+#:
+#: That split is the point. Which hostnames are "the default" is a property of
+#: the images a cohort was handed, and those change whenever an image is
+#: re-minted, so they belong with the card that names its cohort rather than in
+#: this file. It is also what lets another course use Clerk without editing it.
+#:
+#: Matched only inside a prompt, never in prose: "Ubuntu-GUI" is the legitimate
+#: object name in these topologies and appears all over a correct report, where
+#: "itsclass@ubuntu:~$" is an image default nobody renamed. A pattern that
+#: cannot tell those apart flags every student, which is the same as flagging
+#: none.
+#:
+#: No Windows defaults, ever. A Windows terminal prompt shows a path and no
+#: hostname at all, so DESKTOP-xxxxxxx can never appear in one.
+PROMPT_HOST = r"[\w.-]+@({names})(?=[\s:~$#)\].,]|$)"
+
+#: Used only when a card names none. Stock images any course would see, with
+#: nothing local to one institution.
+STOCK_DEFAULTS = ("ubuntu", "debian", "vyos", "localhost", "localhost.localdomain")
+
+
+def generic_hostname_re(names=None):
+    """Build the prompt matcher for one card's declared image defaults.
+
+    A name may end in `*` to match a suffix, so a card can say `its-uc-*` and
+    catch `its-uc-xxx` without knowing what the placeholder looks like.
+    """
+    chosen = [n for n in (names or []) if n] or list(STOCK_DEFAULTS)
+    alts = "|".join(re.escape(n).replace(r"\*", r"[\w-]*") for n in chosen)
+    return re.compile(PROMPT_HOST.format(names=alts), re.I | re.M)
+
+
+@check("no_generic_hostnames")
+def no_generic_hostnames(f: Facts) -> CheckResult:
+    """The student's own hostname, not the image default or a placeholder."""
+    if f.generic_hostnames:
+        return CheckResult(
+            False,
+            f"a generic hostname appears {f.generic_hostnames} time(s); output "
+            f"cannot be attributed to a specific device")
+    return CheckResult(True, "no generic or placeholder hostnames")
 
 
 @check("monospace_present")

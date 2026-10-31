@@ -1,0 +1,226 @@
+{
+  "title": "Deliverable 07 - Report",
+  "free_form_criterion_comments": false,
+  "criteria": [
+    {
+      "description": "Task 1 - Virtual CPU Features",
+      "long_description": "",
+      "points": 5,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "WebServer CPU instruction sets confirmed and compared with the Raspberry Pi's ARM processor.",
+          "points": 5
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 4
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 2 - Docker Setup",
+      "long_description": "",
+      "points": 10,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "Docker Engine and Compose installed from Docker's apt repository, runnable by the itsclass user.",
+          "points": 10
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 9
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 3 - Container Lifecycle",
+      "long_description": "",
+      "points": 10,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "An interactive container run, detached, reattached and renamed, with what it sees compared against what the host sees.",
+          "points": 10
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 9
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 4 - Container Data",
+      "long_description": "",
+      "points": 10,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "Data shown surviving a container restart but absent in a new container from the same image.",
+          "points": 10
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 9
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 5 - Docker Marketplace",
+      "long_description": "",
+      "points": 15,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "WordPress and MySQL deployed as a Compose stack listening only on the WebServer loopback address.",
+          "points": 15
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 14
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 6 - HTTP Proxies",
+      "long_description": "",
+      "points": 10,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "WordPress published over HTTPS at /cms beside /netinfo, with the Layer 7 routing relationship discussed.",
+          "points": 10
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 9
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 7 - Protecting the WordPress Site",
+      "long_description": "",
+      "points": 10,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "Password required for the site, with trusted networks reaching it without one.",
+          "points": 10
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 9
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 8 - Site Customization",
+      "long_description": "",
+      "points": 10,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "The WordPress site customized and shown.",
+          "points": 10
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 9
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 8 - Second Container",
+      "long_description": "",
+      "points": 10,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "A second containerized product found, installed and used on your own.",
+          "points": 10
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 9
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Report Standards",
+      "long_description": "",
+      "points": 10,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "One Word document per the Lab Report Guidelines: labeled figures, terminal text as text, narrative connecting the evidence.",
+          "points": 10
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 9
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    }
+  ]
+}

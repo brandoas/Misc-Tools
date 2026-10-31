@@ -1,0 +1,138 @@
+{
+  "title": "Deliverable 05 - Report v2",
+  "free_form_criterion_comments": false,
+  "criteria": [
+    {
+      "description": "Task 1 - Discovering Services",
+      "long_description": "",
+      "points": 20,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "Host scanned three ways, with the table of which ports each scan source reveals.",
+          "points": 20
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 19
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 2 - Software Catalog",
+      "long_description": "",
+      "points": 20,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "Software exposed on the public host and installed on your own PC cataloged, with how each product receives updates and patches.",
+          "points": 20
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 19
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 3 - Vulnerability Catalog",
+      "long_description": "",
+      "points": 20,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "A service on your server traced to its public vulnerability record, with what CVE and CVSS tell a reader explained.",
+          "points": 20
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 19
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 4 - From the Inside",
+      "long_description": "",
+      "points": 20,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "The documented path through the HWR secure network, with the engagement record your tooling produced.",
+          "points": 20
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 19
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 5 - Treasure Hunt",
+      "long_description": "",
+      "points": 10,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "Waypoints recorded as discovered, with the trail of evidence that led to each.",
+          "points": 10
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 9
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Report Standards",
+      "long_description": "",
+      "points": 10,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "One Word document per the Lab Report Guidelines: labeled figures, terminal text as text, narrative connecting the evidence.",
+          "points": 10
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 9
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    }
+  ]
+}

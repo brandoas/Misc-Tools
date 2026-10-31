@@ -85,6 +85,24 @@ class Card:
         return value or None
 
     @property
+    def max_images(self) -> int:
+        """Images the vision pass transcribes per report, 0 for no limit.
+
+        Per lab, because the right number is a property of the deliverable and
+        not of the tool. A lab whose evidence is almost all command output
+        wants a low cap, so a wall of terminal screenshots cannot spend the
+        budget. A lab that legitimately asks for several browser windows, a
+        certificate panel and a devtools pane wants a higher one, and at four
+        its real evidence falls off the end unread. A card that says nothing
+        gets vision.DEFAULT_MAX_IMAGES.
+        """
+        value = self.meta.get("max_images")
+        if value is None:
+            from .vision import DEFAULT_MAX_IMAGES
+            return DEFAULT_MAX_IMAGES
+        return int(value)
+
+    @property
     def total_points(self) -> int:
         return sum(c.points for c in self.criteria)
 
@@ -231,6 +249,14 @@ def lint(card: Card, lab=None) -> list[str]:
         findings.append(
             f"points mismatch: front matter says {declared}, criteria sum to "
             f"{card.total_points}. The Canvas rubric is the authority."
+        )
+
+    cap = card.meta.get("max_images")
+    if cap is not None and (isinstance(cap, bool) or not isinstance(cap, int)
+                            or cap < 0):
+        findings.append(
+            f"max_images must be a non negative integer, got {cap!r}. "
+            f"0 transcribes every image."
         )
 
     names = [c.name for c in card.criteria]

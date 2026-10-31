@@ -159,12 +159,17 @@ def cmd_extract(args) -> int:
         texts = {s: (out_dir / f"{s}.md").read_text(encoding="utf-8")
                  for s in run.students() if (out_dir / f"{s}.md").is_file()}
         hits = canaries.screen(c.canary, texts)
+        # The file keeps its old name. Run directories written before
+        # 2026-10-23 already hold one, and renaming it would make their flags
+        # invisible to a re-run. What changed is what it means: these
+        # submissions are graded.
         (run.path / "quarantine.json").write_text(
             json.dumps([{"student": h.student, "reason": h.reason} for h in hits],
                        indent=2), encoding="utf-8")
         if hits:
-            print(f"\nquarantined {len(hits)}: {', '.join(h.student for h in hits)}")
-            print("not graded, never sent to a model")
+            print(f"\nAI use marker in {len(hits)}: "
+                  f"{', '.join(h.student for h in hits)}")
+            print("graded as normal; the marker is never sent to a model")
     return 0
 
 
@@ -216,17 +221,16 @@ def cmd_judge(args) -> int:
     lab = lab_mod.load(run.lab_path)
     dossier_dir, out_dir = run.path / "dossier", run.dir("verdicts")
 
-    quarantined = set()
-    qfile = run.path / "quarantine.json"
-    if qfile.is_file():
-        quarantined = {q["student"] for q in json.loads(qfile.read_text(encoding="utf-8"))}
-
-    students = [s for s in run.students() if s not in quarantined]
+    # A canary hit no longer skips the judge. Brandon, 2026-10-23: the marker
+    # notifies, it does not withhold a grade. The flag is carried into the
+    # review sheet and the cohort report instead, where only he reads it.
+    students = list(run.students())
     if args.student:
         students = [s for s in students if s in args.student]
 
     try:
-        engine = Engine(args.host, slots=args.slots)
+        engine = Engine(args.host, slots=args.slots,
+                        pause=getattr(args, 'polite', 0.0))
     except EngineError as e:
         sys.exit(str(e))
 
@@ -298,6 +302,21 @@ def cmd_judge(args) -> int:
     return 0
 
 
+_GENERIC_CACHE: dict = {}
+
+
+def _generic_re(run):
+    """The image defaults this run's card declares, compiled once per run."""
+    key = str(run.path)
+    if key not in _GENERIC_CACHE:
+        try:
+            names = run.load_card(require_signed=False).meta.get("image_defaults")
+        except Exception:
+            names = None
+        _GENERIC_CACHE[key] = checks_mod.generic_hostname_re(names)
+    return _GENERIC_CACHE[key]
+
+
 def _facts_for(run: Run, student: str, report: str) -> checks_mod.Facts:
     """Gather what the tool knows about a submission without reading meaning."""
     meta_file = run.path / "extract" / f"{student}.meta.json"
@@ -313,45 +332,60 @@ def _facts_for(run: Run, student: str, report: str) -> checks_mod.Facts:
         terminal_images=sum(1 for i in images if i.get("kind") == "terminal"),
         wireshark_images=sum(1 for i in images if i.get("kind") == "wireshark"),
         unformatted_terminal=meta.get("unformatted_terminal", 0),
+        generic_hostnames=len(_generic_re(run).findall(report)),
     )
 
 
 def _load_results(run: Run, c) -> tuple[list[StudentResult], list]:
     results: list[StudentResult] = []
-    quarantined = []
+    canary_hits = []
     qfile = run.path / "quarantine.json"
     if qfile.is_file():
-        quarantined = [canaries.Quarantine(**q)
+        canary_hits = [canaries.CanaryHit(**q)
                        for q in json.loads(qfile.read_text(encoding="utf-8"))]
-    qnames = {q.student for q in quarantined}
+    qnames = {q.student for q in canary_hits}
+
+    rfile = run.path / "roster.json"
+    roster = json.loads(rfile.read_text(encoding="utf-8")) if rfile.is_file() else {}
 
     for student in run.students():
-        if student in qnames:
-            results.append(StudentResult(student=student, quarantined=True))
-            continue
         vfile = run.path / "verdicts" / f"{student}.json"
         if not vfile.is_file():
             continue
         verdicts = [Verdict(**v) for v in json.loads(vfile.read_text(encoding="utf-8"))]
-        result = StudentResult(student=student, verdicts=verdicts)
+        result = StudentResult(student=student, verdicts=verdicts,
+                               canary_flagged=student in qnames)
+        result.similarity = (roster.get(student) or {}).get("similarity")
+        dfile = run.path / "dossier" / f"{student}.md"
+        if dfile.is_file():
+            from .report import narrative, narrative_by_task
+            text = dfile.read_text(encoding="utf-8")
+            result.narrative = narrative(text)
+            result.narrative_by_task = narrative_by_task(text)
         mfile = run.path / "extract" / f"{student}.meta.json"
         if mfile.is_file():
             meta = json.loads(mfile.read_text(encoding="utf-8"))
             result.monospace_ratio = meta.get("monospace_ratio", 0.0)
             result.image_kinds = Counter(i["kind"] for i in meta.get("images", []))
+        visfile = run.path / "vision" / f"{student}.json"
+        if visfile.is_file():
+            entries = json.loads(visfile.read_text(encoding="utf-8"))
+            result.images_unread = sum(1 for e in entries if e.get("skipped"))
         results.append(result)
-    return results, quarantined
+    return results, canary_hits
 
 
 def cmd_report(args) -> int:
     run = Run(args.run)
     c = run.load_card(require_signed=False)
-    results, quarantined = _load_results(run, c)
+    results, canary_hits = _load_results(run, c)
     out_dir = run.dir("review")
 
     for r in results:
         (out_dir / f"{r.student}.md").write_text(student_sheet(r, c), encoding="utf-8")
-    cohort = cohort_report(results, c, quarantined=quarantined)
+    rfile = run.path / "roster.json"
+    roster = json.loads(rfile.read_text(encoding="utf-8")) if rfile.is_file() else {}
+    cohort = cohort_report(results, c, canary_hits=canary_hits, roster=roster)
     (out_dir / "_cohort.md").write_text(cohort, encoding="utf-8")
     print(f"wrote {len(results)} sheet(s) and _cohort.md to {out_dir}")
     print()
@@ -425,6 +459,18 @@ def _record_stage(run: "Run", stage: str, seconds: float, extra: dict | None = N
 
 
 def main(argv: list[str] | None = None) -> int:
+    # Student text reaches stdout, and a Windows console is cp1252 by default.
+    # On 2026-10-25 the 4750 d08 report stage wrote all ten sheets and the
+    # cohort report, then died printing the cohort report because one student
+    # had a non breaking hyphen in it. The work was done and the stage still
+    # reported failure, which is the kind of thing that makes a pipeline look
+    # broken when it is not.
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(errors="replace")
+        except (AttributeError, OSError):
+            pass
+
     p = argparse.ArgumentParser(prog="clerk", description=__doc__,
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = p.add_subparsers(dest="command", required=True)
@@ -453,8 +499,11 @@ def main(argv: list[str] | None = None) -> int:
     jp.add_argument("--student", action="append", help="limit to these students")
     jp.add_argument("--force", action="store_true")
     jp.add_argument("--slots", type=int, default=1,
-                    help="requests in flight. 1 (default) is reproducible; "
+                    help="requests in flight. 1 (default) is the most stable but is NOT reproducible; "
                          "higher is faster and makes scores vary between runs")
+    jp.add_argument("--polite", type=float, default=0.0, metavar="SECONDS",
+                    help="wait this long between model calls so other users can "
+                         "get in. Costs wall clock, yields the box.")
     jp.add_argument("--unsigned", action="store_true",
                     help="run against an unsigned card. Testing only.")
     jp.set_defaults(func=cmd_judge)
@@ -466,6 +515,20 @@ def main(argv: list[str] | None = None) -> int:
     fp.add_argument("--force", action="store_true", help="redownload existing files")
     from .canvas_io import cmd_fetch
     fp.set_defaults(func=cmd_fetch)
+
+    pp = sub.add_parser("pipeline", help="run every stage in order, unattended")
+    pp.add_argument("run")
+    pp.add_argument("--course", help="Canvas course id, to fetch first")
+    pp.add_argument("--assignment", help="Canvas assignment id, to fetch first")
+    pp.add_argument("--host", default="spark", choices=list(HOSTS),
+                    help="host for judging (default spark)")
+    pp.add_argument("--vision-host", default="spark-vision", choices=list(HOSTS),
+                    help="host for the image pass (default spark-vision)")
+    pp.add_argument("--no-vision", action="store_true")
+    pp.add_argument("--force", action="store_true",
+                    help="ignore a stale pipeline lock")
+    from .pipeline import cmd_pipeline
+    pp.set_defaults(func=cmd_pipeline)
 
     np = sub.add_parser("notes", help="aggregate a graded run into lab fix notes")
     np.add_argument("run")
@@ -484,9 +547,11 @@ def main(argv: list[str] | None = None) -> int:
     vp.add_argument("--force", action="store_true")
     vp.add_argument("--no-ocr", action="store_true", help="skip the tesseract pass")
     from .vision import DEFAULT_MAX_IMAGES
-    vp.add_argument("--max-images", type=int, default=DEFAULT_MAX_IMAGES,
-                    help=f"images transcribed per report (default {DEFAULT_MAX_IMAGES}, "
-                         f"0 for no limit). The rest are recorded as unread.")
+    vp.add_argument("--max-images", type=int, default=None,
+                    help=f"images transcribed per report, 0 for no limit. "
+                         f"Overrides the card's max_images, which itself "
+                         f"overrides the built in {DEFAULT_MAX_IMAGES}. The "
+                         f"rest are recorded as unread.")
     from .vision import cmd_vision
     vp.set_defaults(func=cmd_vision)
 

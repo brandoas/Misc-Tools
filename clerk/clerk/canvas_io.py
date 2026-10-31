@@ -37,6 +37,29 @@ def _api():
     return canvas_api
 
 
+def _similarity(sub: dict) -> dict | None:
+    """Pull the originality report off a submission, if there is one.
+
+    Canvas keys `turnitin_data` by attachment, with the similarity score, a
+    processing state and a report URL. The state matters: "failure" means the
+    report never generated, which is not the same as a low score and must not
+    be read as one.
+    """
+    data = sub.get("turnitin_data") or sub.get("vericite_data") or {}
+    best = None
+    for key, value in data.items():
+        if not isinstance(value, dict) or "similarity_score" in value is None:
+            continue
+        score = value.get("similarity_score")
+        if score is None:
+            continue
+        row = {"score": score, "state": value.get("state"),
+               "report_url": value.get("report_url"), "attachment": key}
+        if best is None or score > best["score"]:
+            best = row
+    return best
+
+
 def _safe(name: str) -> str:
     return re.sub(r"[^A-Za-z0-9._-]", "_", name).strip("_") or "unknown"
 
@@ -107,6 +130,7 @@ def cmd_fetch(args) -> int:
             "submitted_at": s.get("submitted_at"),
             "late": bool(s.get("late")),
             "file": target.name,
+            "similarity": _similarity(s),
         }
 
     (run.path / "roster.json").write_text(

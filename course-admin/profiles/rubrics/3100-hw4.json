@@ -1,0 +1,116 @@
+{
+  "title": "Homework 4 - SSH Keys",
+  "free_form_criterion_comments": false,
+  "criteria": [
+    {
+      "description": "Task 1 - Before the Keys",
+      "long_description": "",
+      "points": 5,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "The chosen computer named, and the password cost of reaching the WebServer recorded before any keys exist.",
+          "points": 5
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 4
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 2 - Keys and an Agent",
+      "long_description": "",
+      "points": 10,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "Key generated, installed on the WebServer, and loaded into an agent per the chosen computer's instructions.",
+          "points": 10
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 9
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 3 - A Layered SSH Configuration",
+      "long_description": "",
+      "points": 15,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "Jump host, gHost, and WebServer each given a single name, with ssh webserver replacing the full -J command.",
+          "points": 15
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 14
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Task 4 - VS Code over SSH",
+      "long_description": "",
+      "points": 5,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "Code edited and run on the WebServer from VS Code.",
+          "points": 5
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 4
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "description": "Report Standards",
+      "long_description": "",
+      "points": 5,
+      "ratings": [
+        {
+          "description": "Complete",
+          "long_description": "One Word document per the Lab Report Guidelines: labeled figures, terminal text as text.",
+          "points": 5
+        },
+        {
+          "description": "Acceptable",
+          "long_description": "Partial - see comments.",
+          "points": 4
+        },
+        {
+          "description": "Missing",
+          "long_description": "Absent or not data backed.",
+          "points": 0
+        }
+      ]
+    }
+  ]
+}
