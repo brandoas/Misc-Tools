@@ -1,14 +1,14 @@
 """Post ITS-4750 Deliverable 04 (Ansible Automation) to Canvas.
 
-Run from Canvas-Tools/course-admin (reads the Canvas token from ../.env via
+Run from Misc-Tools/course-admin (reads the Canvas token from ../.env via
 coursekit). Dry-run by default; add --apply to create the three assignments,
 attach their rubrics, set due dates, and PUBLISH.
 
     python3 post-d04.py            # preview
     python3 post-d04.py --apply    # create + date + publish
 
-Reads its inputs from profiles/rubrics/: d04-*-description.html, d04-prelab.json,
-d04-grader.json, weekly-faculty-v2.json.
+Reads its inputs from ITS-4750-Infrastructure/Grading/Rubric/: 4750-d04-*-description.html,
+4750-d04-prelab.json, 4750-d04-grader.json, weekly-faculty-v2.json.
 
 Notes:
 - docx submission, group 170654 (Weekly Labs), split 10/75/15.
@@ -22,17 +22,18 @@ Notes:
 """
 
 import sys, json
+from pathlib import Path
 import coursekit as ck
 
 COURSE = "82426"
 GROUP = "170654"
-RB = "profiles/rubrics/"
+RB = str(Path(__file__).resolve().parent.parent.parent / "ITS-4750-Infrastructure" / "Grading" / "Rubric") + "/"
 APPLY = "--apply" in sys.argv
 
 PLAN = [
-    ("Deliverable 04 - PreLab",  10, "d04-prelab-description.html",  "d04-prelab.json",       "2026-09-15T13:00:00Z"),
-    ("Deliverable 04 - Grader",  75, "d04-grader-description.html",  "d04-grader.json",       "2026-09-22T21:00:00Z"),
-    ("Deliverable 04 - Faculty", 15, "d04-faculty-description.html", "weekly-faculty-v2.json","2026-09-22T21:00:00Z"),
+    ("Deliverable 04 - PreLab",  10, "4750-d04-prelab-description.html",  "4750-d04-prelab.json",       "2026-09-15T13:00:00Z"),
+    ("Deliverable 04 - Grader",  75, "4750-d04-grader-description.html",  "4750-d04-grader.json",       "2026-09-22T21:00:00Z"),
+    ("Deliverable 04 - Faculty", 15, "4750-d04-faculty-description.html", "weekly-faculty-v2.json","2026-09-22T21:00:00Z"),
 ]
 
 

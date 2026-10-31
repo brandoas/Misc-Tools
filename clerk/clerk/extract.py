@@ -122,7 +122,7 @@ def extract(path: str | Path, image_dir: str | Path, student: str) -> Extracted:
     would throw away the better source and inherit the harder problem, and
     round tripping through Word or LibreOffice reflows the fixed width blocks
     that the evidence quotes are checked against. The PDF fixtures in
-    fixtures/make_fixtures.py are rendered from the same content, not converted
+    Grading/Cards/fixtures/make_3100_d01.py are rendered from the same content, not converted
     from the .docx files, for the same reason.
     """
     path = Path(path)

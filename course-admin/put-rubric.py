@@ -3,7 +3,7 @@
 Usage:
     python put-rubric.py RUBRIC.json COURSE_ID ASSIGNMENT_ID [--apply]
 
-Rubric JSON (see profiles/rubrics/):
+Rubric JSON (see <course repo>/Grading/Rubric/):
     {
       "title": "Lab 01 - DDI",
       "free_form_criterion_comments": false,

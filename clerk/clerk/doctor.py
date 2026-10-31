@@ -55,7 +55,7 @@ def cmd_doctor(args) -> int:
     else:
         failures += 1
         _say(BAD, f"{host.key_env} is not set", f"""
-Put it in Canvas-Tools/clerk/.env as:
+Put it in Misc-Tools/clerk/.env as:
     {host.key_env}=sk-...
 Get it from {origin} under Settings, Account, API keys.
 """)

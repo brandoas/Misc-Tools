@@ -41,5 +41,5 @@ Paste this into a course project's instructions or first message. It describes t
 ## NEXT YEAR: D01-D03 Grader rubrics need B versions (2026-09-13)
 
 The five-generic-dimension rubrics on Deliverables 01, 02, 03 are nearly useless
-for grading. Build task-mapped B versions like `profiles/rubrics/d04-grader.json`
+for grading. Build task-mapped B versions like `ITS-4750-Infrastructure/Grading/Rubric/4750-d04-grader.json`
 before Fall 2027. Full note: `ITS-4750-Infrastructure/NEXT-YEAR-RUBRICS.md`.
